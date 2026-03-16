@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+overflow:hidden;
+background:#ffc0cb;
+font-family:Poppins, sans-serif;
+color:white;
+text-align:center;
+}
+
+h1{
+position:absolute;
+top:35%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:60px;
+z-index:2;
+color:#ff2e63;
+}
+
+p{
+position:absolute;
+top:45%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:22px;
+z-index:2;
+width:950px;
+color:rgb(255, 255, 255);
+}
+
+.nextBtn{
+position:absolute;
+top:82%;
+left:50%;
+transform:translateX(-50%);
+padding:16px 40px;
+font-size:20px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff2e63;
+cursor:pointer;
+z-index:2;
+}
+
+.nextBtn:hover{
+transform:translateX(-50%) scale(1.1);
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+}
+
+</style>
+</head>
+
+<body>
+
+
+<p>
+Hey Mahi,<br>
+Happy 23rd Birthday to the one who makes the world a prettier, funnier, and more thoughtful place just by being in it! 🎉✨ It’s amazing how you can turn the ordinary into something magical with your sweet smile and sparkle of joy. You have this delightful knack for making even the simplest moments unforgettable.<br>
+As you blaze through 23 with grace and that mischievous charm, I just want to remind you how much I admire everything about you. From the little laughs we share to the grand adventures we embark on, being around you is like a never-ending carnival ride—full of fun and wonder!<br>
+Here’s to another year of living beautifully and having a blast! Let life unfold its joys and teach you the art of happiness, while you continue to sprinkle your sweetness everywhere. Remember to revel in all its glory, and keep making every day as epic as you are!<br>
+Wishing you a year of endless fun, and, of course, cake!<br>
+Cheers to amazing 23,<br>
+Kunal
+</p>
+
+<button class="nextBtn" onclick="goNext()">Next Surprise ➜</button>
+
+<canvas id="fireworks"></canvas>
+
+<script>
+
+function goNext(){
+window.location.href="cake.html";
+}
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let fireworks = [];
+
+function createFirework(){
+
+let x = Math.random() * canvas.width;
+let y = Math.random() * canvas.height / 2;
+
+for(let i=0;i<80;i++){
+
+fireworks.push({
+x:x,
+y:y,
+angle:Math.random()*Math.PI*2,
+speed:Math.random()*5+2,
+radius:2,
+alpha:1
+});
+
+}
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+fireworks.forEach((f,i)=>{
+
+f.x += Math.cos(f.angle)*f.speed;
+f.y += Math.sin(f.angle)*f.speed;
+f.alpha -= 0.01;
+
+ctx.beginPath();
+ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
+ctx.fillStyle="hsla("+Math.random()*360+",100%,50%,"+f.alpha+")";
+ctx.fill();
+
+if(f.alpha<=0){
+fireworks.splice(i,1);
+}
+
+});
+
+requestAnimationFrame(animate);
+
+function goNext(){
+window.location.href="page3.html";
+}
+
+
+}
+
+setInterval(createFirework,800);
+
+animate();
+
+</script>
+
+</body>
+</html>

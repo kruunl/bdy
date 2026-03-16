@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Crackers</title>
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#fcbafa; /* Pinkish background */
+  font-family:'Segoe UI', sans-serif;
+  overflow:hidden;
+}
+
+/* NOTE CARD */
+.note{
+  width:450px;
+  padding:50px;
+  background:rgb(255, 255, 255);
+  text-align:center;
+  position:relative;
+  box-shadow:0 10px 20px rgba(0,0,0,0.3);
+  z-index:2;
+  border-radius:15px;
+}
+
+.note h2{
+  letter-spacing:2px;
+  margin-bottom:20px;
+  color:rgb(239, 141, 208);
+  animation:float 3s ease-in-out infinite;
+}
+
+.message{
+  line-height:1.6;
+  font-size:18px;
+  color:#333;
+  margin-bottom:20px;
+}
+
+.note img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:15px;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+  100%{transform:translateY(0)}
+}
+
+.next-btn a{
+  text-decoration:none;
+  background:rgb(251, 185, 243);
+  color:#ffffff;
+  padding:10px 20px;
+  border-radius:6px;
+  font-weight:bold;
+}
+
+.next-btn a:hover{
+  background:#e894b0;
+}
+
+canvas{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:0;
+}
+</style>
+</head>
+<body>
+
+<!-- PAPER CRACKERS CANVAS -->
+<canvas id="crackers"></canvas>
+
+<!-- NOTE & IMAGE -->
+<div class="note">
+  <img src="10.jpeg" alt="Birthday Image">
+  <h2>Wanderer</h2>
+  <div class="message">
+    She loves to try every unique thing just for experience, means she is not a boring person.
+  </div>
+  <div class="next-btn">
+    <a href="11.html">Next →</a>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("crackers");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let crackers = [];
+
+function createCracker(){
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height;
+    let color = `hsl(${Math.random()*360},90%,60%)`;
+    let width = 4 + Math.random()*4;
+    let height = 15 + Math.random()*15;
+
+    crackers.push({
+        x:x,
+        y:y,
+        vx:(Math.random()-0.5)*4,
+        vy:- (2 + Math.random()*3),
+        life:50 + Math.random()*50,
+        width:width,
+        height:height,
+        color:color
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    crackers.forEach((c,i)=>{
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.05; // gravity effect
+        c.life--;
+
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x,c.y,c.width,c.height);
+
+        if(c.life <=0){
+            crackers.splice(i,1);
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+// create crackers continuously
+setInterval(createCracker, 100);
+
+animate();
+
+// Resize canvas
+window.addEventListener('resize',()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>

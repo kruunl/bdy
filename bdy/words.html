@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Page</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#ffc0cb;
+font-family:'Segoe UI', sans-serif;
+overflow:hidden;
+}
+
+/* NOTE CARD */
+
+.note{
+width:450px;
+padding:80px;
+background:#fd9eae;
+text-align:center;
+position:relative;
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+z-index:2;
+}
+
+.note::before{
+content:"";
+position:absolute;
+top:-20px;
+left:50%;
+transform:translateX(-50%) rotate(-8deg);
+width:120px;
+height:35px;
+background:#ffffff;
+}
+
+.note h2{
+letter-spacing:2px;
+margin-bottom:20px;
+color:white;
+animation:float 3s ease-in-out infinite;
+}
+
+.message{
+line-height:1.6;
+font-size:18px;
+color:white;
+}
+
+.next-btn{
+margin-top:30px;
+}
+
+.next-btn a{
+text-decoration:none;
+background:white;
+color:#ff69b4;
+padding:10px 20px;
+border-radius:6px;
+font-weight:bold;
+}
+
+.next-btn a:hover{
+background:#fff0f5;
+}
+
+/* FLOAT ANIMATION */
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+100%{transform:translateY(0)}
+}
+
+/* BALLOONS */
+
+.balloon{
+position:absolute;
+bottom:-150px;
+width:60px;
+height:80px;
+background:red;
+border-radius:50%;
+animation:rise 8s linear infinite;
+}
+
+.balloon:before{
+content:"";
+position:absolute;
+width:2px;
+height:60px;
+background:white;
+top:80px;
+left:50%;
+}
+
+@keyframes rise{
+0%{transform:translateY(0)}
+100%{transform:translateY(-120vh)}
+}
+
+/* different balloons */
+
+.b1{left:5%; background:#ff4d6d; animation-delay:0s}
+.b2{left:15%; background:#ffd93d; animation-delay:2s}
+.b3{left:85%; background:#6bcB77; animation-delay:1s}
+.b4{left:95%; background:#4d96ff; animation-delay:3s}
+.b5{left:50%; background:#ff6b6b; animation-delay:4s}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- FIREWORKS CANVAS -->
+
+<canvas id="fireworks"></canvas>
+
+<!-- BALLOONS -->
+
+<div class="balloon b1"></div>
+<div class="balloon b2"></div>
+<div class="balloon b3"></div>
+<div class="balloon b4"></div>
+<div class="balloon b5"></div>
+
+<!-- NOTE -->
+
+<div class="note">
+
+<h2>My words</h2>
+
+<div class="message">
+Tumhari tareef me fuul bicha du<br>
+Tum bichane dogi kya..?<br>
+Intzaar me tumhare din bita du<br>
+Tum bitane dogi kya..?<br>
+Chahu tumhe shayar banana<br>
+Tum banane dogi kya..?<br>
+Tumhari har taklif mitana<br>
+Tum mitane dogi kya..?
+</div>
+
+<div class="next-btn">
+<a href="1.html">Ab mahi se mile →</a>
+</div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles=[];
+
+function createFirework(){
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
+
+for(let i=0;i<50;i++){
+particles.push({
+x:x,
+y:y,
+angle:Math.random()*2*Math.PI,
+speed:Math.random()*5+2,
+life:100
+})
+}
+}
+
+function animate(){
+
+ctx.fillStyle="rgba(0,0,0,0.1)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+particles.forEach((p,i)=>{
+p.x+=Math.cos(p.angle)*p.speed;
+p.y+=Math.sin(p.angle)*p.speed;
+p.life--;
+
+ctx.fillStyle="white";
+ctx.fillRect(p.x,p.y,2,2);
+
+if(p.life<=0) particles.splice(i,1);
+});
+
+requestAnimationFrame(animate);
+}
+
+setInterval(createFirework,1200);
+
+animate();
+
+</script>
+
+</body>
+</html>

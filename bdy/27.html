@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Crackers</title>
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#fcbafa; /* Pinkish background */
+  font-family:'Segoe UI', sans-serif;
+  overflow:hidden;
+}
+
+/* NOTE CARD */
+.note{
+  width:800px;
+  padding:50px;
+  background:rgb(255, 255, 255);
+  text-align:center;
+  position:relative;
+  box-shadow:0 10px 20px rgba(0,0,0,0.3);
+  z-index:2;
+  border-radius:15px;
+}
+
+.note h2{
+  letter-spacing:2px;
+  margin-bottom:20px;
+  color:rgb(239, 141, 208);
+  animation:float 3s ease-in-out infinite;
+}
+
+.message{
+  line-height:1.6;
+  font-size:18px;
+  color:#333;
+  margin-bottom:20px;
+}
+
+.note img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:15px;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+  100%{transform:translateY(0)}
+}
+
+.next-btn a{
+  text-decoration:none;
+  background:rgb(251, 185, 243);
+  color:#ffffff;
+  padding:10px 20px;
+  border-radius:6px;
+  font-weight:bold;
+}
+
+.next-btn a:hover{
+  background:#e894b0;
+}
+
+canvas{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:0;
+}
+</style>
+</head>
+<body>
+
+<!-- PAPER CRACKERS CANVAS -->
+<canvas id="crackers"></canvas>
+
+<!-- NOTE & IMAGE -->
+<div class="note">
+  <div class="message">
+    Hii mam, kunal this side, hehehehe. hope you liked it, mujhe or bhi bada bana tha but sorry nhi ho paya or haa sorry mene tere phone se teri pics tujhe bina dikhaye leli. hope maaf kardegi, me ye sab planing kar raha tha holi ke baad se but shaadi me conversation esi ho gayi ki man hi nhi kiya ek bar ka, adhi mehnat karli thi adhi or karni thi 
+    to kardi, Happy birthday meri or se tujhe ek baar firse, sorry tera gift nhi la paya aaj but kal leaunga hope tera birthday acha gaya hoga (me hu to acha hi gaya hoga hehehe) and also upcoming saal ache jaye, teri wish puri ho, health achi rahe, MBA achi college se ho, vaha jakar tu mujhe bhule nhi hahahahaha or tu khus rahe, 
+    hasti reh khilti reh. ab kyuki tera dost hu or me farz banta hai ki me meri friend ki manokamnaye puri karu to agar tu chahe mtlb agar teri haa ho to flavors ka jugaad kara sakta hu ab use kese kare vo tu jane tera kaam jane me gande kaam nhi karta but tere liye sirf tere liye jugaad kara sakta hu hehehehehe.. bura mat maan jaiyo meri to aadat hai 
+    baaki yahi hai abhi ke liye to baaki ka kl deta hu tujhe clg aa jana.. take care, meri taraf se dher sari subhkamnaye or feedback jarur dena phli baar website vala kaam kiya hai, kami rahi to vo bhi batani h, mtlb AI ki help bhi li thi par itne din lage hai to khud ne bhi kuch to kiya hi hoga mene hehehee
+  </div>
+  <div class="next-btn">
+    <a href="27.html"> Stay blessed...!</a>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("crackers");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let crackers = [];
+
+function createCracker(){
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height;
+    let color = `hsl(${Math.random()*360},90%,60%)`;
+    let width = 4 + Math.random()*4;
+    let height = 15 + Math.random()*15;
+
+    crackers.push({
+        x:x,
+        y:y,
+        vx:(Math.random()-0.5)*4,
+        vy:- (2 + Math.random()*3),
+        life:50 + Math.random()*50,
+        width:width,
+        height:height,
+        color:color
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    crackers.forEach((c,i)=>{
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.05; // gravity effect
+        c.life--;
+
+        ctx.fillStyle = c.color;
+        ctx.fillRect(c.x,c.y,c.width,c.height);
+
+        if(c.life <=0){
+            crackers.splice(i,1);
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+// create crackers continuously
+setInterval(createCracker, 100);
+
+animate();
+
+// Resize canvas
+window.addEventListener('resize',()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>

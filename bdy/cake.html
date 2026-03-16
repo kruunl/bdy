@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Final Birthday Wish</title>
+
+<style>
+
+body{
+margin:0;
+overflow:hidden;
+background:#ffc0cb;
+font-family:Poppins, sans-serif;
+color:white;
+text-align:center;
+cursor:none;
+}
+
+/* sparkle cursor */
+
+.sparkle{
+position:absolute;
+width:8px;
+height:8px;
+background:white;
+border-radius:50%;
+pointer-events:none;
+animation:spark 0.8s linear forwards;
+}
+
+@keyframes spark{
+0%{transform:scale(1);opacity:1;}
+100%{transform:scale(0);opacity:0;}
+}
+
+/* floating hearts */
+
+.heart{
+position:absolute;
+font-size:22px;
+animation:floatUp 6s linear infinite;
+opacity:0.8;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh) scale(1);}
+100%{transform:translateY(-10vh) scale(1.5);}
+}
+
+/* heading */
+
+h1{
+position:absolute;
+top:16%;
+left:50%;
+transform:translateX(-50%);
+font-size:50px;
+z-index:2;
+color:#ff2e63;
+letter-spacing:3px;
+margin:0;
+}
+
+/* paragraph */
+
+p{
+position:absolute;
+top:32%;
+left:50%;
+transform:translateX(-50%);
+font-size:26px;
+width:1090px;
+z-index:2;
+color:white;
+line-height:1.9;
+text-align:center;
+margin:0;
+}
+
+/* cake container */
+
+.cake{
+position:absolute;
+bottom:110px;
+left:50%;
+transform:translateX(-50%);
+width:220px;
+height:120px;
+z-index:2;
+cursor:pointer;
+}
+
+/* knife */
+
+.knife{
+position:absolute;
+top:-120px;
+left:95px;
+font-size:40px;
+transform:rotate(-20deg);
+opacity:0;
+transition:1s;
+}
+
+/* strawberries */
+
+.strawberries{
+position:absolute;
+top:-25px;
+left:49%;
+transform:translateX(-50%);
+font-size:25px;
+letter-spacing:5px;
+z-index:-1;
+}
+
+/* cake pieces */
+
+.cake-left,
+.cake-right{
+position:absolute;
+width:110px;
+height:80px;
+background:#8B4513;
+top:0;
+transition:1s;
+box-shadow:0 15px 25px rgba(0,0,0,0.2);
+}
+
+.cake-left{
+left:0;
+border-radius:12px 0 0 12px;
+}
+
+.cake-right{
+right:0;
+border-radius:0 12px 12px 0;
+}
+
+/* cutting animation */
+
+.cut .cake-left{
+transform:translateX(-40px) rotate(-8deg);
+}
+
+.cut .cake-right{
+transform:translateX(40px) rotate(8deg);
+}
+
+.cut .knife{
+top:25px;
+opacity:1;
+}
+
+/* candle */
+
+.candle{
+position:absolute;
+top:-55px;
+left:100px;
+width:10px;
+height:55px;
+background:white;
+border-radius:5px;
+}
+
+.flame{
+position:absolute;
+top:-20px;
+left:3px;
+width:5px;
+height:20px;
+background:radial-gradient(circle, yellow, orange, red);
+border-radius:50%;
+animation:flicker 0.15s infinite;
+}
+
+@keyframes flicker{
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
+}
+
+/* fireworks canvas */
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+z-index:0;
+}
+
+/* confetti */
+
+.confetti{
+position:absolute;
+width:8px;
+height:8px;
+background:red;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg);}
+100%{transform:translateY(100vh) rotate(720deg);}
+}
+
+/* NEXT BUTTON */
+
+#nextBtn{
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+padding:14px 30px;
+font-size:20px;
+background:#ff2e63;
+color:white;
+border:none;
+border-radius:30px;
+cursor:pointer;
+display:none;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+transition:0.3s;
+z-index:10;
+}
+
+#nextBtn:hover{
+transform:translateX(-50%) scale(1.1);
+background:#ff4d7d;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🎉 Cake cutting time 🎉</h1>
+
+<p>
+Man me tha cake cut karwane ka par kct me to kahi ja nhi sakte, ab vese nhi to ese hi sahi...
+Ab cake par click kar, aage bhi chalna hai.
+</p>
+
+<div class="cake" onclick="cutCake()">
+
+<div class="knife">🔪</div>
+
+<div class="strawberries">🍓🍓🍓🍓🍓🍓</div>
+
+<div class="cake-left"></div>
+<div class="cake-right"></div>
+
+<div class="candle">
+<div class="flame" id="flame"></div>
+</div>
+
+</div>
+
+<button id="nextBtn" onclick="goNext()">Next Surprise ➜</button>
+
+<canvas id="fireworks"></canvas>
+
+<script>
+
+/* cake cut */
+
+function cutCake(){
+
+document.getElementById("flame").style.display="none";
+
+document.querySelector(".cake").classList.add("cut");
+
+confettiBlast();
+
+document.getElementById("nextBtn").style.display="block";
+
+}
+
+/* next page */
+
+function goNext(){
+window.location.href="words.html";
+}
+
+/* sparkle cursor */
+
+document.addEventListener("mousemove",function(e){
+
+let sparkle=document.createElement("div");
+
+sparkle.className="sparkle";
+
+sparkle.style.left=e.pageX+"px";
+sparkle.style.top=e.pageY+"px";
+
+document.body.appendChild(sparkle);
+
+setTimeout(()=>sparkle.remove(),800);
+
+});
+
+/* floating hearts */
+
+function createHeart(){
+
+let heart=document.createElement("div");
+
+heart.className="heart";
+heart.innerHTML="💖";
+
+heart.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),6000);
+
+}
+
+setInterval(createHeart,900);
+
+/* confetti blast */
+
+function confettiBlast(){
+
+for(let i=0;i<120;i++){
+
+let conf=document.createElement("div");
+
+conf.className="confetti";
+
+conf.style.left=Math.random()*100+"vw";
+conf.style.background="hsl("+Math.random()*360+",100%,50%)";
+
+document.body.appendChild(conf);
+
+setTimeout(()=>conf.remove(),3000);
+
+}
+
+}
+
+/* fireworks */
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let fireworks = [];
+
+function createFirework(){
+
+let x = Math.random()*canvas.width;
+let y = Math.random()*canvas.height/2;
+
+for(let i=0;i<80;i++){
+
+fireworks.push({
+x:x,
+y:y,
+angle:Math.random()*Math.PI*2,
+speed:Math.random()*5+2,
+radius:2,
+alpha:1
+});
+
+}
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+fireworks.forEach((f,i)=>{
+
+f.x += Math.cos(f.angle)*f.speed;
+f.y += Math.sin(f.angle)*f.speed;
+f.alpha -= 0.01;
+
+ctx.beginPath();
+ctx.arc(f.x,f.y,f.radius,0,Math.PI*2);
+ctx.fillStyle="hsla("+Math.random()*360+",100%,50%,"+f.alpha+")";
+ctx.fill();
+
+if(f.alpha<=0){
+fireworks.splice(i,1);
+}
+
+});
+
+requestAnimationFrame(animate);
+
+}
+
+setInterval(createFirework,800);
+
+animate();
+
+</script>
+
+</body>
+</html>
